@@ -1,0 +1,252 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: sans-serif;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url("assets/image.png");
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-size: cover;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+header {
+    position: sticky;
+    top: 0;
+    display: flex;
+    gap: 32px;
+    padding: 16px 24px;
+}
+
+main {
+    flex: 1;
+    display: flex;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    margin-left: 12vw;
+}
+
+footer {
+    position: sticky;
+    bottom: 0;
+    padding: 4px;
+    background-color: rgba(51, 51, 51, 0.8);
+    color: #f1efef;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.button {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: fit-content;
+    padding: 8px 30px;
+    background-color: transparent;
+    color: #e6080f;
+    border: 2px solid #e6080f;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s, box-shadow 0.2s ease-in-out;
+}
+
+.button:hover {
+    scale: 1.02;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.button:active {
+    transform: scale(0.95);
+}
+
+.button svg {
+    width: 24px;
+    height: 24px;
+    fill: #e6080f;
+}
+
+
+.radio-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20vw;
+    height: 20vw;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 5px solid #e6080f;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s, box-shadow 0.2s ease-in-out;
+}
+
+.radio-button:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.radio-button:active {
+    transform: scale(0.95);
+}
+
+.radio-button svg {
+    width: 50%;
+    height: 50%;
+    fill: #e6080f;
+}
+
+
+.dialog-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    padding: 32px;
+    border-radius: 10px;
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.dialog-block{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.close-button {
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: #e6080f;
+}
+
+.input {
+    width: calc(100% - 20px);
+    margin-bottom: 4px;
+    padding: 10px;
+    border: 1px solid #130001;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.ad-button {
+    display: flex;
+    justify-content: center;
+    width: calc(100% - 20px);
+    margin-top: 8px;
+
+    &:hover{
+        scale: none;
+    }
+}
+
+
+.dialog-message-title{
+    font-weight: 300;
+    font-size: 2rem;
+}
+
+.dialog-message-subtitle{
+    font-weight: 300;
+    font-size: 1.3rem;
+}
+
+.dialog-subtitle{
+    margin-bottom: 16px;
+}
+
+.donation-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.donation-button {
+    padding: 10px 20px;
+    background-color: #ff4747;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
+}
+
+.donation-button:hover {
+    background-color: #d93e3e;
+}
+
+#custom-amount {
+    padding: 10px;
+    width: 86%;
+    border: 2px solid #e6080f;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+}
+
+
+

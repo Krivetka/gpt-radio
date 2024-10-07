@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="by">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Interaction Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <button class="button" onclick="openDialog(addSentForm())">Дадаць рэкламу</button>
+  <button class="button" onclick="openDialog(addDonationForm())">Падтрымаць</button>
+</header>
+<main>
+  <div class="container">
+    <button class="radio-button">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M3 22v-20l18 10-18 10z"/>
+      </svg>
+    </button>
+  </div>
+</main>
+<footer>Powered by: <a href="https://donar.by/">Donar.by</a>, <a href="https://soundcloud.com/">Soundcloud</a></footer>
+<div class="dialog-container">
+  <div class="dialog">
+    <button class="close-button" onclick="closeDialog()">&times;</button>
+    <div class="dialog-block">
+
+    </div>
+  </div>
+</div>
+
+<script src="scripts.js"></script>
+</body>
+</html>
