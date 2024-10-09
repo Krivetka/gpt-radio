@@ -42,6 +42,8 @@ body {
     min-height: 100vh;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    background: url("assets/image.webp") no-repeat;
+    background-size: cover;
 }
 
 nav {
@@ -286,11 +288,15 @@ input[type="number"] {
 }
 .spike-block{
     position: absolute;
-    left: 18%;
-    top: calc(50% - 200px);
-    width: 400px;
-    height: 400px;
+    /*left: 18%;*/
+    left: calc(50% - 250px);
+    top: calc(50% - 250px);
+    width: 500px;
+    height: 500px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
     cursor: pointer;
+    z-index: 2;
 }
 .spike {
     --fx: calc(var(--i)/var(--n));
