@@ -45,8 +45,10 @@ body {
     background: url("assets/image.webp") no-repeat;
     background-size: cover;
 }
-
-nav {
+.nav-mobile{
+    display: none;
+}
+.nav-desktop {
     position: absolute;
     top: 0;
     left: 0;
@@ -273,8 +275,9 @@ input[type="number"] {
     outline: none;
 }
 
-
-
+audio {
+    display: none;
+}
 
 :root {
     --n: 128;
@@ -336,6 +339,7 @@ input[type="number"] {
     height: 0.05em;
     animation: a 11s ease-in-out calc(var(--i)/var(--n)*-22s) infinite;
 }
+
 .spike:before, .spike:after {
     --k: 0;
     --s: calc(2*var(--k) - 1);
@@ -470,4 +474,60 @@ input[type="number"] {
     }
 }
 
+
+@media screen and (max-width: 640px) {
+    .nav-desktop{
+        display: none;
+    }
+    .nav-mobile {
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        bottom: 30px;
+        left: 0;
+        width: 100%;
+        padding: 0.5rem;
+        background-color: #fff;
+        box-shadow: 2px 2px 8px 0 rgba(34, 60, 80, 0.2);
+        z-index: 2;
+    }
+
+    .nav-button{
+        width: auto;
+        margin-bottom: 0;
+        &:last-child{
+            position: initial;
+        }
+    }
+
+    footer{
+        height: 30px;
+    }
+
+    :root {
+        --n: 92;
+        --f: 0.024548622108925444
+    }
+
+    .spike-block{
+        left: calc(50% - 150px);
+        top: calc(50% - 150px);
+        width: 300px;
+        height: 300px;
+    }
+    .spike {
+        left: 50%;
+        top: 50%;
+        transform: rotate(calc(var(--i)*1turn/var(--n))) translate(calc(0.15em/var(--f))) scalex(var(--fx));
+    }
+
+    .spike-icon {
+        --size: 6rem;
+    }
+    .spike-active {
+        width: 3em;
+        height: 0.05em;
+    }
+
+}
 
