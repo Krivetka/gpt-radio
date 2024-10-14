@@ -16,7 +16,19 @@ const audioControl = ()=> {
 };
 
 document.addEventListener("DOMContentLoaded",()=>{
-
+    fetch('https://sapircast.caster.fm:10493/U4QIy?token=a31fe6d1cd554f743e51e2263a2ee58b', {
+        method: 'GET',
+        headers: {
+            'sec-ch-ua-platform': 'Windows'
+        }
+    })
+        .then(response => response.blob())  // Преобразуем ответ в Blob (для медиафайлов)
+        .then(blob => {
+            const audioUrl = URL.createObjectURL(blob);  // Создаем URL из Blob
+            audioPlayer.src = audioUrl;  // Устанавливаем источник аудио в плеер
+            audioPlayer.play();  // Запускаем воспроизведение
+        })
+        .catch(error => console.error('Error fetching audio:', error));
 })
 
 

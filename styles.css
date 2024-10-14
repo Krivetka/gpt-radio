@@ -35,7 +35,13 @@ a {
 ul, ol {
     list-style: none;
 }
-
+.cstrEmbed{
+    width: calc(100% - 4rem) !important;
+    position: absolute;
+    left: auto;
+    right: 0;
+    top: 0
+}
 body {
     display: flex;
     flex-direction: column;
@@ -290,6 +296,7 @@ audio {
     inherits: true;
 }
 .spike-block{
+    display: none;
     position: absolute;
     /*left: 18%;*/
     left: calc(50% - 250px);
