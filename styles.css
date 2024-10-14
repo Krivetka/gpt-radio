@@ -483,6 +483,9 @@ audio {
 
 
 @media screen and (max-width: 640px) {
+    .cstrEmbed{
+        width: 100% !important;
+    }
     .nav-desktop{
         display: none;
     }
