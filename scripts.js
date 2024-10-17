@@ -5,15 +5,15 @@ const audioPlayer = document.querySelector('.audioPlayer');
 const spikes = document.querySelectorAll('.spike')
 
 
-// const audioControl = ()=> {
-//     if (audioPlayer.paused) {
-//         audioPlayer.play();
-//         spikes.forEach(spike => spike.classList.add('spike-active'));
-//     } else {
-//         audioPlayer.pause();
-//         spikes.forEach(spike => spike.classList.remove('spike-active'));
-//     }
-// };
+const audioControl = ()=> {
+    if (audioPlayer.paused) {
+        audioPlayer.play();
+        spikes.forEach(spike => spike.classList.add('spike-active'));
+    } else {
+        audioPlayer.pause();
+        spikes.forEach(spike => spike.classList.remove('spike-active'));
+    }
+};
 
 document.addEventListener("DOMContentLoaded",()=>{
 
