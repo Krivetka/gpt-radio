@@ -114,13 +114,10 @@ const setLike= ()=>{
     container.lastElementChild.remove()
 }
 
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwNGNlWYLLUzeqsfKFNAtQo0BgH0j0gioLb6l3XSaffgH4m6nd7OC3FjwfzIwzACC-w/exec'
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxXYHd-sR8iu4TRz23AhymHI9MbZs-V2gLgaT0rhNMFRFv7SVX3Mh8yc1CW9jI_h0rs/exec'
 const sendFeedback = async (name, feedback) => {
     const response = await fetch(WEB_APP_URL, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
             name: name,
             feedback: feedback
