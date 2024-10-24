@@ -75,20 +75,22 @@ const closeDialog= ()=> {
     dialogContainer.style.display = 'none';
 };
 
-const sentContactData = ()=> {
+const sentContactData = async () => {
     const email = document.querySelector('#email-input').value;
     const name = document.querySelector('#name-input').value;
     if (email && name) {
+        await sendData('ad', email, name)
         openDialog(addSuccessMessage())
     } else {
         closeDialog()
     }
 };
 
-const sentContactFormData = ()=> {
+const sentContactFormData = async () => {
     const text = document.querySelector('#contact-text-input').value;
     const name = document.querySelector('#contact-name-input').value;
     if (text && name) {
+        await sendData('contact', name, text)
         openDialog(addSuccessMessage())
     } else {
         closeDialog()
@@ -101,7 +103,7 @@ const sentFeedbackFormData = async () => {
     const text = document.querySelector('#feedback-text-input').value;
     const name = document.querySelector('#feedback-name-input').value;
     if (text && name) {
-        await sendFeedback(name, text)
+        await sendData('report',name, text)
         openDialog(addSuccessMessage())
     } else {
         closeDialog()
@@ -114,13 +116,13 @@ const setLike= ()=>{
     container.lastElementChild.remove()
 }
 
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxXYHd-sR8iu4TRz23AhymHI9MbZs-V2gLgaT0rhNMFRFv7SVX3Mh8yc1CW9jI_h0rs/exec'
-const sendFeedback = async (name, feedback) => {
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx_x5ieoyuGICRldBhK6eSXBGbqrezCfwNc5o901GFu1k9Q0v0rclgjXfd9gReCQb4D/exec'
+const sendData= async (contact, text) => {
     const response = await fetch(WEB_APP_URL, {
         method: 'POST',
         body: JSON.stringify({
-            name: name,
-            feedback: feedback
+            contact,
+            text
         }),
     });
 
