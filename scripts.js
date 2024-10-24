@@ -116,7 +116,7 @@ const setLike= ()=>{
     container.lastElementChild.remove()
 }
 
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwYQnNJYhVj18A2k2DRbAngAN-fehkN-yGmMee3J2y-rb83Ag9AkTf-t5qV8RIQYnat/exec'
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwMBxQ7ahEoAt-NqyH34aeKtI10ncMMx-IcFqZ4nvJplZbzo_C28M_K1btG8qW6EKXn/exec'
 const sendData= async (contact, text) => {
     const response = await fetch(WEB_APP_URL, {
         method: 'POST',
