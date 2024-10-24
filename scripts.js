@@ -97,15 +97,11 @@ const sentContactFormData = ()=> {
 
 
 
-const sentFeedbackFormData = ()=> {
+const sentFeedbackFormData = async () => {
     const text = document.querySelector('#feedback-text-input').value;
     const name = document.querySelector('#feedback-name-input').value;
     if (text && name) {
-        dataLayer.push({
-            'event': 'feedback',
-            'feedback-contact': name,
-            'feedback-text': text
-        });
+        await sendFeedback(name, text)
         openDialog(addSuccessMessage())
     } else {
         closeDialog()
@@ -117,3 +113,22 @@ const setLike= ()=>{
     localStorage.setItem('like', 'true')
     container.lastElementChild.remove()
 }
+
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbynFErnucYjtk7kDrP2S02I5aoB26DVFg9uGV-zGIHrI7EdUi-emp-3QXvxF9e9l_03/exec'
+const sendFeedback = async (name, feedback) => {
+    const response = await fetch(WEB_APP_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            name: name,
+            feedback: feedback
+        }),
+    });
+
+    const result = await response.json();
+    if (result.status !== 'success') {
+        throw Error(result.status);
+    }
+};
