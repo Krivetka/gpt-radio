@@ -296,7 +296,6 @@ audio {
     inherits: true;
 }
 .spike-block{
-    display: none;
     position: absolute;
     /*left: 18%;*/
     left: calc(50% - 250px);

@@ -63,22 +63,6 @@ const  addFeedbackForm = ()=>{
     `
 }
 
-const addDonationForm = ()=>{
-    return `      <h2>Падтрымайце праект</h2>
-      <p class="dialog-subtitle">Выберыце суму для Даната:</p>
-      <div class="donation-options">
-        <button class="donation-button" data-amount="100">5€</button>
-        <button class="donation-button" data-amount="200">10€</button>
-        <button class="donation-button" data-amount="500">25€</button>
-        <button class="donation-button" data-amount="1000">50€</button>
-        <div class="input-wrapper">
-  <input type="number" id="custom-amount" placeholder="Іншая сума" min="1">
-  <span class="currency">€</span>
-</div>
-      </div>
-      <button class="button" id="support-button">Падтрымаць</button>`
-}
-
 const addSuccessMessage =()=>{
     return `
       <h3 class="dialog-message-title">Дзякуй!</h3>
