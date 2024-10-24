@@ -118,9 +118,6 @@ const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwNGNlWYLLUzeqsfKFN
 const sendFeedback = async (name, feedback) => {
     const response = await fetch(WEB_APP_URL, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
             name: name,
             feedback: feedback
