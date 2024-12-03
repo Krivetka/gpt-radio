@@ -1,134 +1,233 @@
-const dialogContainer = document.querySelector('.dialog-container')
-const dialogBlock = document.querySelector('.dialog-block')
-const container = document.querySelector('.container')
+const dialogContainer = document.querySelector('.dialog-container');
+const dialogBlock = document.querySelector('.dialog-block');
+const container = document.querySelector('.container');
 const audioPlayer = document.querySelector('.audioPlayer');
-const spikes = document.querySelectorAll('.spike')
+const spikeBlock = document.querySelector('.spike-block');
 
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyZAlYqM__CCq17rNnnhHQrejlkdWuVb0tLlGEVDFtWGMJIBC_6MJ36GQASxuel5eLl/exec';
 
-const audioControl = ()=> {
+let spikes
+
+const audioControl = () => {
     if (audioPlayer.paused) {
         audioPlayer.play();
-        spikes.forEach(spike => spike.classList.add('spike-active'));
+        toggleSpikes(true);
     } else {
         audioPlayer.pause();
-        spikes.forEach(spike => spike.classList.remove('spike-active'));
+        toggleSpikes(false);
     }
 };
 
-document.addEventListener("DOMContentLoaded",()=>{
-
-})
-
-
-
-const openDialog= ((action)=> {
-    dialogContainer.style.display = 'flex';
-    dialogBlock.innerHTML = action
+document.addEventListener("DOMContentLoaded", () => {
+    createSpikes(127);
+    spikes = document.querySelectorAll('.spike');
+    let isLiked = localStorage.getItem("liked") === "true";
+    toggleHeart(isLiked);
 });
 
-const addSentForm = ()=>{
-    return `
-          <h2>Дадаць рэкламу</h2>
-               <p class="dialog-subtitle">Пакіньце дадзеныя каб мы маглі з вамі звязацца</p>
-                <label for="name-input"></label><input type="text" placeholder="Iмя" class="input" id="name-input"/>
-      <label for="email-input"></label><input type="email" placeholder="Ваш email" class="input" id="email-input"/>
-      <button class="button ad-button" onclick="sentContactData()">
-        Даслаць
-      </button>
-    `
+const createSpikes = (count) => {
+    for (let i = count; i >= 0; i--) {
+        const spike = document.createElement("div");
+        spike.classList.add("spike");
+        spike.style.setProperty("--i", i);
+        spikeBlock.appendChild(spike);
+    }
+};
+
+const setLike = () => {
+    let isLiked = localStorage.getItem("liked") === "true";
+    let newLikedState = !isLiked;
+    localStorage.setItem("liked", newLikedState);
+    toggleHeart(newLikedState);
 }
 
-
-const  addContactForm = ()=>{
-    return `
-          <h2>Далучыцца да нас</h2>
-               <p class="dialog-subtitle">Пакіньце дадзеныя каб мы маглі з вамі звязацца</p>
-                <label for="name-input"></label><input type="text" placeholder="Імя або псеўданім" class="input" id="contact-name-input"/>
-      <label for="contact-text-input"></label><textarea placeholder="Чым вы хочаце дапамагчы праекту" class="input" id="contact-text-input"></textarea>
-      <button class="button ad-button" onclick="sentContactFormData()">
-        Даслаць
-      </button>
-    `
+const toggleHeart = (isLiked) => {
+    let likeIcon = document.querySelectorAll(".like-icon");
+    if (isLiked) {
+        likeIcon.forEach(el=>el.classList.add("liked"));
+    } else {
+        likeIcon.forEach(el=>el.classList.remove("liked"));
+    }
 }
 
-const  addFeedbackForm = ()=>{
-    return `
-          <h2>Водгук</h2>
-               <p class="dialog-subtitle">Пакіньце дадзеныя каб мы маглі з вамі звязацца</p>
-                <label for="name-input"></label><input type="text" placeholder="Кантакты для сувязі" class="input" id="feedback-name-input"/>
-      <label for="contact-text-input"></label><textarea placeholder="Каментар" class="input" id="feedback-text-input"></textarea>
-      <button class="button ad-button" onclick="sentFeedbackFormData()">
-        Даслаць
-      </button>
-    `
+const goToLink = (link) => {
+    window.location.href = link
 }
 
-const addSuccessMessage =()=>{
-    return `
-      <h3 class="dialog-message-title">Дзякуй!</h3>
-      <h4 class="dialog-message-subtitle">Дадзеныя паспяхова адпраўлены</h4>
-`
-}
+const openDialog = (action) => {
+    dialogContainer.style.display = 'flex';
+    dialogBlock.innerHTML = action;
+};
 
-
-const closeDialog= ()=> {
+const closeDialog = () => {
     dialogContainer.style.display = 'none';
 };
 
-const sentContactData = async () => {
-    const email = document.querySelector('#email-input').value;
-    const name = document.querySelector('#name-input').value;
-    if (email && name) {
-        await sendData('ad', email, name)
-        openDialog(addSuccessMessage())
-    } else {
-        closeDialog()
+const toggleSpikes = (isActive) => {
+    spikes.forEach(spike => spike.classList.toggle('spike-active', isActive));
+};
+
+const sendData = async (data) => {
+    try {
+        const response = await fetch(WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (result.status === 'success') {
+            openDialog(addSuccessMessage());
+        } else {
+            openDialog(addErrorMessage());
+        }
+    } catch (error) {
+        console.error(error);
     }
 };
 
-const sentContactFormData = async () => {
-    const text = document.querySelector('#contact-text-input').value;
-    const name = document.querySelector('#contact-name-input').value;
-    if (text && name) {
-        await sendData('contact', name, text)
-        openDialog(addSuccessMessage())
+const sendIdeaData = async () => {
+    let button = event.currentTarget
+    button.disabled = !button.disabled;
+    const contact = document.querySelector('#idea-contact').value;
+    const idea = document.querySelector('#idea-text').value;
+    if (contact && idea) {
+        await sendData({ type: 'idea', contact, idea });
     } else {
-        closeDialog()
+        closeDialog();
+    }
+    button.disabled = !button.disabled;
+};
+
+const sendContactData = async () => {
+    let button = event.currentTarget
+    button.disabled = !button.disabled;
+    const name = document.querySelector('#contact-name').value;
+    const contact = document.querySelector('#contact-contact').value;
+    const helpText = document.querySelector('#contact-text').value;
+    if (name && contact && helpText) {
+        await sendData({ type: 'contact', name, contact, helpText });
+    } else {
+        closeDialog();
+    }
+    button.disabled = !button.disabled;
+};
+
+const sendVacancyData = async () => {
+    let button = event.currentTarget
+    button.disabled = !button.disabled;
+    const name = document.querySelector('#vacancy-name').value;
+    const contact = document.querySelector('#vacancy-contact').value;
+    const offer = document.querySelector('#vacancy-text').value;
+    if (name && contact && offer) {
+        await sendData({ type: 'vacancy', name, contact, offer });
+    } else {
+        closeDialog();
+    }
+    button.disabled = !button.disabled;
+};
+
+const sendFeedbackData = async () => {
+    let button = event.currentTarget
+    button.disabled = !button.disabled;
+    const feedback = document.querySelector('#feedback-text-input').value;
+    if (feedback) {
+        await sendData({ type: 'feedback', feedback });
+    } else {
+        closeDialog();
+    }
+    button.disabled = !button.disabled;
+};
+
+const showToast = (message) => {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerText = message;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.classList.add('fade');
+        toast.addEventListener('transitionend', () => toast.remove());
+    }, 2000);
+};
+
+const addSuccessMessage = () => `
+    <h3 class="dialog-message-title">Дзякуй!</h3>
+    <h4 class="dialog-message-subtitle">Дадзеныя паспяхова адпраўлены</h4>
+`;
+
+const addErrorMessage = () => `
+    <h4 class="dialog-message-subtitle">Дадзеныя былі адпраўленыя няўдалая, калі ласка паспрабуйце пазней</h4>
+`;
+
+const addIdeaForm = () => `
+    <h2>Прапанаваць ідэю</h2>
+    <p class="dialog-subtitle">Пакіньце дадзеныя каб мы маглі з вамі звязацца</p>
+    <input type="text" placeholder="Кантактныя дадзеныя" class="input" id="idea-contact"/>
+    <textarea placeholder="Апісанне ідэі" class="input" id="idea-text"></textarea>
+    <button class="button ad-button" onclick="sendIdeaData()"> Даслаць</button>
+`;
+
+const addContactForm = () => `
+    <h2>Супрацоўніцтва</h2>
+    <p class="dialog-subtitle">Пакіньце дадзеныя каб мы маглі з вамі звязацца</p>
+    <input type="text" placeholder="Імя" class="input" id="contact-name"/>
+    <input type="text" placeholder="Кантакты для сувязі" class="input" id="contact-contact"/>
+    <textarea placeholder="Апісанне прапановы" class="input" id="contact-text"></textarea>
+    <button class="button ad-button" onclick="sendContactData()">Даслаць</button>
+`;
+
+const addVacancyForm = () => `
+    <h2>Далучыцца да нас</h2>
+    <p class="dialog-subtitle">Пакіньце дадзеныя каб мы маглі з вамі звязацца</p>
+    <input type="text" placeholder="Імя або псеўданім" class="input" id="vacancy-name"/>
+    <input type="text" placeholder="Кантактныя дадзеныя" class="input" id="vacancy-contact"/>
+    <textarea placeholder="Чым вы хочаце дапамагчы праекту" class="input" id="vacancy-text"></textarea>
+    <button class="button ad-button" onclick="sendVacancyData()"> Даслаць</button>
+`;
+
+const addFeedbackForm = () => `
+    <h2>Водгук</h2>
+    <p class="dialog-subtitle">Гэта дапаможа нам палепшыць праект</p>
+    <textarea placeholder="Каментар" class="input" id="feedback-text-input"></textarea>
+    <button class="button ad-button" onclick="sendFeedbackData()">Даслаць</button>
+`;
+
+const addShare = () => `
+    <h2>Падзяліцца</h2>
+    <div class="share-section">
+      <button class="button share-button" onclick="shareOnFacebook()">Facebook</button>
+      <button class="button share-button" onclick="shareOnX()">X</button>
+      <button class="button share-button" onclick="shareOnLinkedIn()">LinkedIn</button>
+      <button class="button share-button" onclick="shareOnWhatsApp()">WhatsApp</button>
+      <button class="button copy-button" onclick="copyLinkToClipboard()">Copy Link</button>
+    </div>
+`;
+
+const sharePage = () => {
+    if (navigator.share) {
+        navigator.share({title: document.title, url: window.location.href})
+            .catch(console.error);
+    } else {
+        openDialog(addShare());
     }
 };
 
-
-
-const sentFeedbackFormData = async () => {
-    const text = document.querySelector('#feedback-text-input').value;
-    const name = document.querySelector('#feedback-name-input').value;
-    if (text && name) {
-        await sendData('report',name, text)
-        openDialog(addSuccessMessage())
-    } else {
-        closeDialog()
-    }
+const shareOnFacebook = () => {
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank');
 };
 
+const shareOnX = () => {
+    window.open(`https://x.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(document.title)}`, '_blank');
+};
 
-const setLike= ()=>{
-    localStorage.setItem('like', 'true')
-    container.lastElementChild.remove()
-}
+const shareOnLinkedIn = () => {
+    window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(window.location.href)}&title=${encodeURIComponent(document.title)}`, '_blank');
+};
 
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxkZv2CCfkM-hFNJRyFpbYfViJxDY19NOrR3VeXRQIpgYPp9lz8jJxA9VDd-WGA60xj/exec'
-const sendData= async (type, contact, text) => {
-    const response = await fetch(WEB_APP_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-            type,
-            contact,
-            text
-        }),
-    });
+const shareOnWhatsApp = () => {
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(document.title)}%20${encodeURIComponent(window.location.href)}`, '_blank');
+};
 
-    const result = await response.json();
-    if (result.status !== 'success') {
-        throw Error(result.status);
-    }
+const copyLinkToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href)
+        .then(() => showToast('Спасылка, скапіявана ў буфер абмену!'))
+        .catch(console.error);
 };
